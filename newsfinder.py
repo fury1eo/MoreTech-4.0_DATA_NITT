@@ -18,13 +18,14 @@ class NewsFinder:
                     'https://lenta.ru/']
         self.role = role
         self.urls = urls
+        self.role_words = ['' for i in range(len(self.role))]
 
     def find(self):
         """
             Первая часть. Определение ключевых слов для роли.
         """
         for i in range(len(self.role)):
-            self.role[i] = self.role[i][:-2].lower()
+            self.role_words[i] = self.role[i][:-2].lower()
 
         url = 'https://edunews.ru/professii/obzor/'
 
@@ -48,7 +49,7 @@ class NewsFinder:
 
             proff = driver.find_elements(By.XPATH, xpath)
 
-            for r in self.role:
+            for r in self.role_words:
                 for pr in proff:
                     if r.lower() in pr.text.lower():
                         proff_links_res.append(pr.get_attribute('href'))
@@ -91,7 +92,7 @@ class NewsFinder:
         for p in numbers_sort[:13]:
             res_kwords.append(kwords[numbers.index(p)])
 
-        for r in self.role:
+        for r in self.role_words:
             for rk in res_kwords:
                 if r in rk.lower():
                     del res_kwords[res_kwords.index(rk)]
