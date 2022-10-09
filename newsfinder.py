@@ -394,18 +394,13 @@ class NewsFinder:
         f.close()
 
         """ Объединение данных в одну таблицу """
-        fTrend = open('trend.txt')
-        fInsight = open('insights.txt')
+        fTrend_ = open('trend.txt')
+        fTrend = [i for i in fTrend_]
+        fInsight_ = open('insights.txt')
+        fInsight = [i for i in fInsight_]
+
         dataFrameTop_link = list(pd.read_excel('roleTable_all_summ.xlsx')['links'])
         dataFrameTop_title = list(pd.read_excel('roleTable_all_summ.xlsx')['summary'])
-
-        trends = []
-        insights = []
-
-        for line in fTrend:
-            trends.append(line[:-1])
-        for line in fInsight:
-            insights.append(line[:-1])
 
         currentTable = pd.DataFrame(data=[dataFrameTop_title, dataFrameTop_link, fTrend, fInsight],
                                     index=['title', 'link', 'trend', 'insight']).T
